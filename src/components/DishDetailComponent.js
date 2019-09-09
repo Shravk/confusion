@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-class DishDetail extends Component{
-
-  renderDish = (dish) => {
+  function RenderDish ({dish}) {
     if(dish !== null) {
       return (
         <Card>
@@ -11,8 +9,6 @@ class DishDetail extends Component{
           <CardBody>
             <CardTitle>{ dish.name }</CardTitle>
             <CardText>{ dish.description }</CardText>
-            {
-          }
 
           </CardBody>
         </Card>
@@ -23,9 +19,10 @@ class DishDetail extends Component{
         <div></div>
       );
     }
-  };
+  }
 
-  renderComments = (comments) => {
+  function RenderComments ({comments}) {
+
     if(comments !== null) {
       const commentsList = comments.map((c) => {
         return (
@@ -45,10 +42,11 @@ class DishDetail extends Component{
 
 
     }
-  };
+  }
 
-  render() {
-    const dish = this.props.selectedDish;
+  const DishDetail=(props)=> {
+    console.log('DishDetail Menu Component render invoked');
+    const dish = props.selectedDish;
     console.log("Dish : " + JSON.stringify(dish));
     if(dish === null) {
       return <div>Null data</div>
@@ -58,18 +56,18 @@ class DishDetail extends Component{
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-5 m-1">
-              { this.renderDish(dish) }
+              <RenderDish dish={dish} onClick={props.onClick} />
             </div>
 
             <div className="col-12 col-md-5 m-1">
               <h2>Comments</h2>
-              {  this.renderComments(dish.comments)  }
+              <RenderComments comments ={props.dish.comments} />
             </div>
           </div>
         </div>
           )
         }
-      }
-    }
+  }
+
 
 export default DishDetail;
