@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Menu from './MenuComponents';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
+import About from './AboutComponent';
 import DishDetail from './DishDetailComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -47,6 +48,12 @@ class Main extends Component{
         />
       );
     }
+    // const About = () => {
+    //   return(
+    //     <About leader={this.state.leaders.filter((leader) => leader.featured)[0]}
+    //     />
+    //   );
+    // }
     return (
       <div>
         <Header />
@@ -54,7 +61,8 @@ class Main extends Component{
           <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
           <Route path="/menu/:dishId" component={DishWithId} />
-          <Route exact path="/contactus" component={Contact} />
+          <Route exact path="/contactus" component={() => <Contact />} />
+          <Route exact path="/aboutus" component={() => <About leaders={ this.state.leaders } />} />
           <Redirect to="/home" />
         </Switch>
         <Footer />
