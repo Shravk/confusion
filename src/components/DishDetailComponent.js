@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Loading } from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 
 class CommentForm extends Component {
@@ -122,6 +123,10 @@ function RenderDish({ dish }) {
   return <div />;
   return (
     <div className="col-12">
+    <FadeTransform in
+      transformProps={{
+        exitTransform: 'scale(0.5) translateY(-50%)'
+      }}>
       <Card>
         <CardImg top src={baseUrl + dish.image} alt={dish.name} />
         <CardBody>
@@ -129,6 +134,7 @@ function RenderDish({ dish }) {
           <CardText>{dish.description}</CardText>
         </CardBody>
       </Card>
+      </FadeTransform>
     </div>
   );
 }
@@ -138,6 +144,8 @@ function RenderComments({ comments, postComment , dishId }) {
     return (
       <div>
         <ul class="list-unstyled">
+        <Stagger in>
+          <Fade in>
           <li>{comment.comment}</li>
           <li>
             --{comment.author},{" "}
@@ -147,6 +155,8 @@ function RenderComments({ comments, postComment , dishId }) {
               day: "2-digit"
             }).format(new Date(Date.parse(comment.date)))}
           </li>
+          </Fade>
+          </Stagger>
         </ul>
       </div>
     );
