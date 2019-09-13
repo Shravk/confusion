@@ -1,12 +1,27 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {baseUrl} from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import { FadeTransform} from 'react-animation-components';
 
-function RenderLeader({ leader }) {
+function RenderLeader({ leader,isLoading,errMess}) {
+  if(isLoading){
+        return(
+            <Loading />
+        );
+    }
+    else if(errMess){
+        return (
+            <h4>{errMess}</h4>
+        );
+    }
+    else{
     return (
+
         <Media>
             <Media left>
-                <Media object src={leader.image} alt="leader" />
+                <Media object src={baseUrl + leader.image} alt="leader" />
             </Media>
             <Media body className="ml-5">
                 <Media heading>
@@ -18,14 +33,21 @@ function RenderLeader({ leader }) {
         </Media>
     );
 }
+}
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
-        return (
-            <RenderLeader leader={leader} />
-        );
-    });
+  let leaders = null;
+  if(props.leaders.errMess)
+      leaders =  <RenderLeader errMess ={props.leaders.errMess} />
+  else
+   leaders = props.leaders.leaders.map((leader) => {
+      return (
+          <FadeTransform in transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)'}}>
+              <RenderLeader leader = {leader} isLoading = {props.leaders.isLoading} errMess ={props.leaders.errMess} />
+          </FadeTransform>
+      );
+  });
 
     return (
         <div className="container">
@@ -82,13 +104,13 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <Media list>
-                        {leaders}
-                    </Media>
+                <Media list>
+                    {leaders}
+                </Media>
                 </div>
             </div>
         </div>
     );
 }
 
-export default About;    
+export default About;
